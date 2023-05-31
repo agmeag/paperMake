@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stickers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+    <style>
+        body,
+        html {
+            height: 100vh;
+            width: 100vw;
+            background-color: transparent;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* input[type=checkbox] {
+            accent-color: green !important;
+        } */
+
+        .totk-background {
+            background: url('assets/layout/pattern-runes.png') no-repeat;
+            background-repeat: no-repeat;
+            background-size: 115px;
+        }
+
+        .ouroboros-background {
+            background: url('assets/layout/ouroboros.png') no-repeat;
+            background-size: 120px;
+            background-position: center;
+        }
+
+        .drop-shadow-black {
+            filter: drop-shadow(2px 4px 6px black);
+        }
+
+        .shadow-white {
+            filter: drop-shadow(0px 0px 2px white);
+        }
+
+        .shadow-white-letter {
+            filter: drop-shadow(2px 4px 6px black);
+        }
+
+        @font-face {
+            font-family: HyliaSerif;
+            src: url('assets/fonts/HyliaSerifBeta-Regular.otf');
+        }
+
+        .hilya-serif {
+            font-family: HyliaSerif;
+        }
+
+        /* .content { */
+        /* this is needed or the background will be offset by a few pixels at the top */
+        /* position: relative; */
+        /* } */
+
+        /* .content::before {
+            content: "";
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: -1;
+
+            display: block;
+            background-image: url('https://i.imgur.com/lL6tQfy.png');
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+
+            -webkit-filter: blur(5px);
+            -moz-filter: blur(5px);
+            -o-filter: blur(5px);
+            -ms-filter: blur(5px);
+            filter: blur(5px);
+        } */
+    </style>
+</head>
+
+<body class="scroll-hide">
+    <div id="app" v-cloak class="w-full h-full min-h-full min-w-full scroll-hide">
+        <div class="grid grid-cols-6 gap-1 snap-none">
+            <template v-for=" item in items">
+                <div class="col-span-1 flex justify-center items-center">
+                    <div
+                        class="rounded-full w-[3cm] h-[3cm] overflow-hidden border border-2 border-slate-800 totk-background flex justify-center items-center">
+                        <img :src="item.url" alt="" class="w-[100%] drop-shadow-black overflow-visible"
+                            :class="{'ml-[18px]':item.margin_left,'mr-[18px]':item.margin_right,'mt-[50px]':item.margin_top,'mt-[25px]':item.margin_top_half,'object-contain':item.contain,'object-cover':item.cover,'h-[100%]':item.contain,'p-[10px]':item.padding}">
+                    </div>
+                </div>
+                <div class="col-span-1 flex justify-center items-center">
+                    <div
+                        class="rounded-full w-[3cm] h-[3cm] overflow-hidden border border-2 border-slate-800 totk-background flex justify-center items-center">
+                        <div
+                            class="ouroboros-background min-h-full min-w-full w-full h-full flex justify-center items-center">
+                            <div class="w-full h-full min-h-full min-w-full hola flex justify-center items-center hola">
+                                <div class="flex flex-col w-[40%] text-center justify-around items-center min-h-full">
+                                    <span
+                                        class="hilya-serif text-white text-[0.7rem] flex flex-wrap leading-none shadow-white-letter"
+                                        :class="{'mt-[-10px]':item.long_title,'mt-[5px]':item.long_name,'mb-[-5px]':item.long_name}">{{item.title}}</span>
+                                    <div class="bg-white rounded-[8px] p-[3px] w-[25px] h-[25px] flex justify-center items-center drop-shadow"
+                                        :class="{'mt-[-15px]':!item.long_name}">
+                                        <img src="assets/layout/amiibo.png" alt="" class="w-[100%]">
+                                    </div>
+                                    <span class="hilya-serif text-white shadow-white-letter leading-none"
+                                        :class="{'mb-[12px]':!item.long_name, 'mt-[-20px]':!item.long_name,'mt-[-8px]':item.long_name}">{{item.name}}</span>
+                                    <!-- <span
+                                        class="hilya-serif text-white text-[0.7rem] flex flex-wrap leading-none shadow-white-letter"
+                                        :class="{'mt-[-20px]':item.large,'mt-[-10px]':item.medium && !item.small,'mt-[-5px]':item.small}">{{item.title}}</span>
+                                    <div class="bg-white rounded-[8px] p-[3px] my-[5px] w-[25px] h-[25px] flex justify-center items-center drop-shadow"
+                                        :class="{'mb-[15px]':!item.small,'mb-[10px]':item.small,'mt-[15px]':!item.small}">
+                                        <img src="assets/layout/amiibo.png" alt="" class="w-[100%]">
+                                    </div>
+                                    <span class="hilya-serif text-white shadow-white-letter mt-[-8px] leading-none"
+                                        :class="{'text-[0.9rem]':item.large,'text-[1rem]':!item.large}">{{item.name}}</span> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</body>
+<script type="module">
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                variable: null,
+                showNoMarked: false,
+                items: [
+                    {
+                        url: 'assets/images/Twilight Princess-Link.png',
+                        margin_left: false,
+                        margin_top: true,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda TOTK-Link.png',
+                        margin_left: true,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                    },
+                    {
+                        url: 'assets/images/Link\'s Awakening-Link.webp',
+                        margin_left: true,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Guardian.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: true,
+                        full_height: true,
+                    },
+                    {
+                        url: 'assets/images/Link.png',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        padding: true,
+                        long_title: true,
+                    },
+                    {
+                        url: 'assets/images/The Wind Waker-Zelda.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_title: true,
+                    },
+                    {
+                        url: 'assets/images/The Wind Waker-Link.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_title: true,
+                    },
+                    {
+                        url: 'assets/images/Majora\'s Mask-Link.png',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                    },
+                    {
+                        url: 'assets/images/Ganondorf.webp',
+                        margin_left: false,
+                        margin_right: true,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_title: true,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Zelda.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Daruk.png',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Revali.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Mipha.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Urbosa.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda.png',
+                        margin_left: false,
+                        margin_right: true,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_title: true,
+                    },
+                    {
+                        url: 'assets/images/Sheik.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_title: true,
+                    },
+                    {
+                        url: 'assets/images/Skyward Sword-Link.png',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                    },
+                    {
+                        url: 'assets/images/Ocarina Of Time-Link.png',
+                        margin_left: true,
+                        margin_top: false,
+                        margin_top_half: true,
+                        contain: false,
+                        cover: true,
+                        full_height: false,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Link Archer.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        small: true,
+                        long_name: true,
+                    },
+                    {
+                        url: 'assets/images/Zelda BOTW-Link Rider.webp',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_name: true,
+                    },
+                    {
+                        url: 'assets/images/Twilight Princess-Wolf Link.png',
+                        margin_left: false,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_name: true,
+                    },
+                    {
+                        url: 'assets/images/Super Smash Bros-Link.webp',
+                        margin_left: true,
+                        margin_top: false,
+                        contain: true,
+                        cover: false,
+                        full_height: true,
+                        long_title: true,
+                    },
+                ]
+            }
+        },
+        beforeMount() {
+            let items = this.cloneItem(this.items);
+            items.map((item) => {
+                let index = item.url.lastIndexOf('/');
+                let filename = item.url.substring(index + 1);
+                console.log(filename);
+                let filename_without_extension = filename.split(".");
+                console.log(filename_without_extension[0]);
+                let name = filename_without_extension[0].split("-");
+                console.log(name);
+                if (name[1]) {
+                    item.title = name[0];
+                    item.name = name[1];
+                } else {
+                    item.title = 'The Legend of Zelda';
+                    item.name = name[0];
+                }
+            });
+            this.items = items;
+            console.log(this.items.length);
+        },
+        computed: {},
+        watch: {
+            variable: function (newvalue, oldvalue) {
+                if (newvalue && newvalue != oldvalue) {
+                }
+            },
+        },
+        methods: {
+            cloneItem(obj) {
+                return JSON.parse(JSON.stringify(obj));
+            },
+
+        }
+    })
+</script>
+
+</html>
